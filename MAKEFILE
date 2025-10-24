@@ -1,0 +1,39 @@
+# Makefile
+
+.PHONY: install lint format clean run
+
+install:
+	poetry install
+
+lint:
+	poetry run ruff check .
+	poetry run black --check .
+	poetry run mypy .
+
+test:
+	poetry run pytest tests/ -v --cov=app
+
+test-watch:
+	poetry run pytest-watch tests/
+
+format:
+	poetry run black app/ tests/
+	poetry run ruff check --fix app/ tests/
+
+clean:
+	find . -type d -name __pycache__ -exec rm -rf {} +
+	find . -type f -name "*.pyc" -delete
+
+run:
+	poetry run uvicorn app.main:app --reload
+
+help:
+	@echo "Available commands:"
+	@echo "  install     - Install project dependencies"
+	@echo "  lint        - Lint the codebase"
+	@echo "  test        - Run tests with coverage"
+	@echo "  test-watch  - Run tests in watch mode"
+	@echo "  format      - Format the codebase"
+	@echo "  clean       - Clean up __pycache__ and .pyc files"
+	@echo "  run         - Run the application with Uvicorn"
+	@echo "  help        - Show this help message"

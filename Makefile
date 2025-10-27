@@ -1,6 +1,6 @@
 # Makefile
 
-.PHONY: install lint format clean run
+.PHONY: install lint test test-watch format clean run help
 
 install:
 	poetry install

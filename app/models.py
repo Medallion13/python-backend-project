@@ -18,3 +18,9 @@ class UserResponse(UserBase):
     """Model for user data response."""
 
     id: int
+
+
+class UserInDB(UserResponse):
+    """Model for user data stored in the database."""
+
+    password: str

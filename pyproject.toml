@@ -23,6 +23,7 @@ httpx = "^0.25.0"  # Para tests de FastAPI
 black = "^23.11.0"
 ruff = "^0.1.6"
 mypy = "^1.7.0"
+python-multipart = "^0.0.20"
 
 
 #------- tool configurations -------#
@@ -89,6 +90,9 @@ addopts = """
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
     "integration: marks tests as integration tests",
+]
+filterwarnings = [
+    "ignore:Please use `import python_multipart` instead:PendingDeprecationWarning"
 ]
 
 [tool.mypy]

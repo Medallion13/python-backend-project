@@ -1,4 +1,4 @@
-from fastapi import FastAPI, status
+from fastapi import FastAPI, HTTPException, status
 
 from app.models import UserCreate, UserInDB, UserResponse
 
@@ -38,3 +38,13 @@ def create_user(user: UserCreate) -> UserInDB:
 
     db_users.append(new_user)
     return new_user
+
+
+@app.get("/users/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
+def get_user(user_id: int) -> UserInDB:
+    response_user = next((user for user in db_users if user.id == user_id), None)
+
+    if not response_user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return response_user

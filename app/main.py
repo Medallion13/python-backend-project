@@ -42,6 +42,16 @@ def create_user(user: UserCreate) -> UserInDB:
 
 @app.get("/users/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
 def get_user(user_id: int) -> UserInDB:
+    """
+    Get a user by ID.
+
+    Args:
+        user_id (int): The ID of the user to retrieve.
+
+    Returns:
+        UserResponse: The user data.
+        Httpexception: If the user is not found.
+    """
     response_user = next((user for user in db_users if user.id == user_id), None)
 
     if not response_user:

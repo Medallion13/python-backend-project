@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, status
 
-from app.models import UserCreate, UserInDB, UserResponse
+from app.models import UserCreate, UserInDB, UserResponse, UserUpdate
 
 app = FastAPI()
 
@@ -58,3 +58,41 @@ def get_user(user_id: int) -> UserInDB:
         raise HTTPException(status_code=404, detail="User not found")
 
     return response_user
+
+
+@app.put("/users/{user_id}", response_model=UserResponse, status_code=status.HTTP_200_OK)
+def update_user(user_id: int, data: UserUpdate) -> UserInDB:
+    """
+    Update an existing user.
+
+    Args:
+        user_id (int): The ID of the user to update.
+        user (UserUpdate): The user data to update.
+
+    Returns:
+        UserResponse: The updated user data.
+        Httpexception: If the user is not found.
+
+    """
+    user_to_update = next((user for user in db_users if user.id == user_id), None)
+
+    if not user_to_update:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    update_data = data.model_dump(exclude_unset=True)
+
+    for key, value in update_data.items():
+        setattr(user_to_update, key, value)
+
+    return user_to_update
+
+
+@app.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_user(user_id: int) -> None:
+    """TODO"""
+    user_to_delete = next((user for user in db_users if user.id == user_id), None)
+
+    if not user_to_delete:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    db_users.remove(user_to_delete)

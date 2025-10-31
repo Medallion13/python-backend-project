@@ -1,3 +1,4 @@
+from fastapi import status
 from fastapi.testclient import TestClient
 
 from app.models import UserCreate, UserResponse, UserUpdate
@@ -7,7 +8,7 @@ from app.models import UserCreate, UserResponse, UserUpdate
 def test_create_user(client: TestClient, sample_user: UserCreate) -> None:
     response = client.post("/users", json=sample_user.model_dump())
 
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
     data = response.json()
     assert data["username"] == sample_user.username
     assert data["email"] == sample_user.email
@@ -20,7 +21,7 @@ def test_create_user_missing_password(client: TestClient) -> None:
 
     response = client.post("/users", json=invalid_payload)
 
-    assert response.status_code == 422
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
 
     data = response.json()
     assert data["detail"][0]["msg"] == "Field required"
@@ -33,7 +34,7 @@ def test_get_user_by_id(client: TestClient, created_user: UserResponse) -> None:
 
     response = client.get(f"/users/{user_id}")
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert data["id"] == user_id
     assert data["username"] == created_user.username
@@ -43,7 +44,7 @@ def test_get_user_by_id(client: TestClient, created_user: UserResponse) -> None:
 def test_get_user_not_found(client: TestClient) -> None:
     response = client.get("/users/99999")
 
-    assert response.status_code == 404
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert response.json() == {"detail": "User not found"}
 
 
@@ -54,7 +55,7 @@ def test_update_user(client: TestClient, created_user: UserResponse) -> None:
     update_payload = UserUpdate(username="new_username", email="new_email")
     response = client.put(f"/users/{user_id}", json=update_payload.model_dump(exclude_unset=True))
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert data["id"] == user_id
     assert data["username"] == update_payload.username
@@ -67,7 +68,7 @@ def test_partial_update_user(client: TestClient, created_user: UserResponse) -> 
     update_payload = UserUpdate(username="new_username")
     response = client.put(f"/users/{user_id}", json=update_payload.model_dump(exclude_unset=True))
 
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert data["id"] == user_id
     assert data["username"] == update_payload.username

@@ -85,3 +85,14 @@ def update_user(user_id: int, data: UserUpdate) -> UserInDB:
         setattr(user_to_update, key, value)
 
     return user_to_update
+
+
+@app.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_user(user_id: int) -> None:
+    """TODO"""
+    user_to_delete = next((user for user in db_users if user.id == user_id), None)
+
+    if not user_to_delete:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    db_users.remove(user_to_delete)

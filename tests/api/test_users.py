@@ -81,3 +81,22 @@ def test_update_user_not_found(client: TestClient) -> None:
 
     assert response.status_code == 404
     assert response.json() == {"detail": "User not found"}
+
+
+# Testing DELETE /users/{user_id}
+def test_delete_user(client: TestClient, created_user: UserResponse) -> None:
+    user_id = created_user.id
+
+    response = client.delete(f"/users/{user_id}")
+
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+
+    get_response = client.get(f"/users/{user_id}")
+    assert get_response.status_code == status.HTTP_404_NOT_FOUND
+
+
+def test_delete_user_not_found(client: TestClient) -> None:
+    response = client.delete("/users/999999")
+
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+    assert response.json() == {"detail": "User not found"}

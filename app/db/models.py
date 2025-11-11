@@ -1,10 +1,5 @@
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-
-
-class Base(DeclarativeBase):
-    """Metadata class"""
-
-    pass
+from session import Base
+from sqlalchemy.orm import Mapped, mapped_column
 
 
 class User(Base):

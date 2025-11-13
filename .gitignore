@@ -176,3 +176,5 @@ pyrightconfig.json
 .venv/
 .env/
 .vscode/
+
+migrations/versions/*_test_*.py

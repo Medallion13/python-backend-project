@@ -125,8 +125,28 @@ class UserRepository:
         return False
 
     def update(self, db: Session, user_id: int, user_data: UserUpdate) -> User | None:
-        """ """
+        """
+        Updates an existing user in the database.
+
+        Args:
+            db (Session): The database session.
+            user_id (int): The ID of the user to update.
+            user_data (UserUpdate): The data to update the user with.
+
+        Raises:
+            sqlalchemy.exc.IntegrityError: If updating the user violates a unique constraint (e.g., duplicate username or email).
+
+        Returns:
+            User | None: The updated user object if found, otherwise None.
+
+        Example:
+            update_data = UserUpdate(username="new_username")
+            updated_user = user_repository.update(db_session, 1, update_data)
+            if updated_user:
+                print(f"User updated: {updated_user.username}")
+        """
         user = self.get_by_id(db, user_id)
+        print(f"User obtain: {user}")
         if not user:
             return None
 

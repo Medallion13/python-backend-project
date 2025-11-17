@@ -45,6 +45,7 @@ exclude = '''
   | __pycache__
   | venv
   | .venv
+  | playground
 )/
 '''
 
@@ -59,7 +60,8 @@ exclude = [
     ".venv",
     "build",
     "dist",
-    "migrations"
+    "migrations",
+    "playground"
 ]
 
 [tool.ruff.lint]
@@ -92,6 +94,8 @@ addopts = """
     --cov-report=term-missing
     --cov-report=html
 """
+norecursedirs = ["playground", ".venv", "dist", "build"]
+
 markers = [
     "slow: marks tests as slow (deselect with '-m \"not slow\"')",
     "integration: marks tests as integration tests",
@@ -104,7 +108,7 @@ filterwarnings = [
 python_version = "3.12"
 strict = true
 ignore_missing_imports = true
-exclude = ["venv", ".venv", "build", "dist", "__pycache__", "migrations", ".git"]
+exclude = ["venv", ".venv", "build", "dist", "__pycache__", "migrations", ".git", "playground"]
 
 [[tool.mypy.overrides]]
 module = [

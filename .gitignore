@@ -178,3 +178,4 @@ pyrightconfig.json
 .vscode/
 
 migrations/versions/*_test_*.py
+tests/manual/*

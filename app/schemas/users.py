@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class UserBase(BaseModel):
@@ -27,8 +27,10 @@ class UserInDB(UserResponse):
 
 
 class UserUpdate(BaseModel):
-    """Model for updater a exist user."""
+    """Model for updating existing user data."""
 
-    username: str | None = None
-    email: str | None = None
-    password: str | None = None
+    username: str | None
+    email: str | None
+    password: str | None
+
+    model_config = ConfigDict(extra="forbid")

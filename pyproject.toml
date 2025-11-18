@@ -75,6 +75,8 @@ select = [
     "B",   # ← AGREGAR: flake8-bugbear (detecta bugs comunes)
 ]
 ignore = ["E501"]  # Ignora "líneas demasiado largas" (Black se encarga)
+# B008: Permitir llamadas a funciones en argumentos por defecto (necesario para FastAPI Depends)
+extend-ignore = ["B008"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["app"]

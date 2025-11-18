@@ -1,17 +1,14 @@
 from fastapi import FastAPI, HTTPException, status
 
-from app.models import UserCreate, UserInDB, UserResponse, UserUpdate
+from app.api.routes import health
+from app.schemas.users import UserCreate, UserInDB, UserResponse
 
-app = FastAPI()
+app = FastAPI(title="Python Backend Proyect", version="0.3.0")
 
 # define the in-memory "database" to indicate that it is a list of UserInDB objects
 db_users: list[UserInDB] = []
 
-
-@app.get("/health")
-def health_check() -> dict[str, str]:
-    """Health check endpoint"""
-    return {"status": "ok"}
+app.include_router(health.router, tags=["Health"])
 
 
 @app.post("/users", response_model=UserResponse, status_code=status.HTTP_201_CREATED)

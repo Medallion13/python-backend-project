@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException, status
 
 from app.api.routes import health
-from app.schemas.users import UserCreate, UserInDB, UserResponse
+from app.schemas.users import UserCreate, UserInDB, UserResponse, UserUpdate
 
 app = FastAPI(title="Python Backend Proyect", version="0.3.0")
 

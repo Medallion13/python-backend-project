@@ -1,7 +1,7 @@
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from app.models import UserCreate, UserResponse, UserUpdate
+from app.schemas.users import UserCreate, UserResponse, UserUpdate
 
 
 # Testing POST /users/{user_id} endpoint

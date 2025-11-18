@@ -4,7 +4,7 @@ import pytest
 from fastapi import status
 from fastapi.testclient import TestClient
 
-from app.models import UserCreate, UserResponse
+from app.schemas.users import UserCreate, UserResponse
 
 
 @pytest.fixture

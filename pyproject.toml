@@ -13,6 +13,10 @@ python = ">=3.12"
 fastapi = "^0.111.0"
 uvicorn = {extras = ["standard"], version = "^0.30.0"}
 pydantic = "^2.7.0"
+sqlalchemy = "^2.0.44"
+psycopg = {extras = ["binary"], version = "^3.2.12"}
+alembic = "^1.17.1"
+pydantic-settings = "^2.11.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -41,6 +45,7 @@ exclude = '''
   | __pycache__
   | venv
   | .venv
+  | playground
 )/
 '''
 
@@ -54,7 +59,9 @@ exclude = [
     "venv",
     ".venv",
     "build",
-    "dist"
+    "dist",
+    "migrations",
+    "playground"
 ]
 
 [tool.ruff.lint]
@@ -79,6 +86,7 @@ testpaths = ["tests"]
 python_files = "test_*.py"
 python_classes = "Test*"
 python_functions = "test_*"
+norecursedirs = ["playground", ".venv", "dist", "build"]
 addopts = """
     -v
     --strict-markers
@@ -99,7 +107,7 @@ filterwarnings = [
 python_version = "3.12"
 strict = true
 ignore_missing_imports = true
-exclude = ["venv", ".venv", "build", "dist", "__pycache__", "migrations", ".git"]
+exclude = ["venv", ".venv", "build", "dist", "__pycache__", "migrations", ".git", "playground"]
 
 [[tool.mypy.overrides]]
 module = [

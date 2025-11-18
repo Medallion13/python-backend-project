@@ -7,7 +7,6 @@ install:
 
 lint:
 	poetry run ruff check .
-	poetry run black --check .
 	poetry run mypy .
 
 test:
@@ -17,7 +16,6 @@ test-watch:
 	poetry run pytest-watch tests/
 
 format:
-	poetry run black app/ tests/
 	poetry run ruff check --fix app/ tests/
 
 clean:
@@ -26,6 +24,12 @@ clean:
 
 run:
 	poetry run uvicorn app.main:app --reload
+
+run-docker:
+	docker-compose up -d
+
+stop-docker:
+	docker-compose down
 
 help:
 	@echo "Available commands:"
@@ -36,4 +40,6 @@ help:
 	@echo "  format      - Format the codebase"
 	@echo "  clean       - Clean up __pycache__ and .pyc files"
 	@echo "  run         - Run the application with Uvicorn"
+	@echo "  run-docker  - Start the docker-compose services"
+	@echo "  stop-docker - Stops the docker containers"
 	@echo "  help        - Show this help message"

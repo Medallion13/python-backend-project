@@ -22,12 +22,6 @@ class UserResponse(UserBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-class UserInDB(UserResponse):
-    """Model for user data stored in the database."""
-
-    password: str
-
-
 class UserUpdate(BaseModel):
     """Model for updating existing user data."""
 
